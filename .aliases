@@ -1,0 +1,85 @@
+# Navigation
+alias ..='cd ..'
+
+# Easy report
+alias ls='lsd -h'
+alias grep='grep --color=auto'
+alias ll='lsd -lh'
+alias la='lsd -lah'
+alias fdir='find . -type d -name'
+alias ff='find . -type f -name'
+alias h='history'
+alias mv='mv -iv'
+alias ln='ln -iv'
+alias mkdir='mkdir -v'
+alias rm='rm -rf'
+alias p='ps axo pid,user,pcpu,comm'
+alias uptime='uptime -p'
+alias free='free -h'
+alias alu='apt list --upgradable'
+alias install='apt-get install'
+alias upgrade='apt-get update && apt-get upgrade'
+alias aptfix='apt --fix-broken install'
+alias update='apt-get update'
+alias aptsearch='apt-cache search'
+
+# Bookmarks
+alias dl='cd ~/Downloads && ls -lA'
+alias doc='cd ~/Documents && ls -lA'
+alias tmp='cd ~/Temporary && ls -lA'
+
+# Shortcuts
+alias c='clear'
+alias cat='bat'
+alias ch='echo > ~/.bash_history && echo > ~/.zsh_history'
+alias cz='echo > ~/.z'
+alias e='exit'
+alias htop-user='htop -u "$USER"'
+alias incognito='unset HISTFILE'
+alias mdv='glow -p -s ~/.config/glow/Material-Theme-Darker.json'
+alias mp3-dl='youtube-dl --ignore-config --extract-audio \
+    --audio-format "mp3" --audio-quality 0 --embed-thumbnail \
+    --add-metadata --metadata-from-title "%(artist)s - %(title)s" \
+    --output "$HOME/Downloads/%(title)s.%(ext)s"'
+alias n='nnn -deo'
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+alias timer='echo "Timer started. Stop with Ctrl-D." && date "+%a, %d %b %H:%M:%S" && time cat && date "+%a, %d %b %H:%M:%S"'
+
+# Developer shortcuts
+alias g='git'
+alias python='python3'
+alias s='subl'
+alias v='vim'
+
+# PHP
+alias art='php artisan'
+alias artisan='php artisan'
+
+# Typos
+alias :q='exit'
+alias help='man'
+alias quit='exit'
+
+# ZSH
+alias rc='vim ~/.zshrc'
+alias ali='vim ~/.aliases'
+alias szsh='source ~/.zshrc'
+
+# VPN
+alias pwk='sudo openvpn --config /opt/vpn/OS-83799-PWK.ovpn --auth-user-pass /opt/vpn/creds'
+alias htb='sudo openvpn --config /opt/vpn/00unknown00.ovpn'
+alias thm='sudo openvpn --config /opt/vpn/unknown.ovpn'
+alias 7z2hash='/opt/7z2hashcat/7z2hashcat.pl'
+alias rscan='docker run -it --rm --name rustscan rustscan:latest -n --no-nmap -g'
+
+alias md='mkdir -p'
+
+alias kerbrute='/opt/kerbrute_linux_amd64'
+alias xclip='xclip -selection clipboard'
+alias open='xdg-open'
+alias burp='java -noverify -Xbootclasspath/p:/opt/Burp/keygen.jar -jar /opt/Burp/burpsuite_pro_v2.1.07.jar'
+alias ex='vim ~/.xmonad/xmonad.hs && xmonad --recompile'
+alias dfm='cp -fvr $HOME/.{aliases,config,exports,functions,fzf,git,gitconfig,ssh,tmux,tmux.conf,vim,viminfo,vimrc,Xauthority,xmonad,zcompdump,zsh,zsh_history} $HOME/dotfile'
+alias blvpn='sudo openvpn --config /opt/vpn/client.ovpn --auth-user-pass /opt/vpn/creds'
+alias dante='sudo openvpn --config /opt/vpn/pro_labs_00unknown00.ovpn'

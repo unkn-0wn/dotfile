@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =6
+let g:netrw_dirhist_6='/home/unkn0wn/.local/share/fonts'
+let g:netrw_dirhist_5='/etc'
+let g:netrw_dirhist_4='/home/unkn0wn/dev/AutoRecon'
+let g:netrw_dirhist_3='/home/unkn0wn/H4ck/HackTheBox/Delivery'
+let g:netrw_dirhist_2='/home/unkn0wn/H4ck/HackTheBox'
+let g:netrw_dirhist_1='/home/unkn0wn/H4ck'
+let g:netrw_dirhist_0='/home/unkn0wn/H4ck/HackTheBox'
+let g:netrw_dirhist_9='/home/unkn0wn/H4ck/HackTheBox/Delivery'
+let g:netrw_dirhist_8='/usr/share/doc/xmobar'
+let g:netrw_dirhist_7='/root/H4ck/.bounty/tools'

@@ -1,0 +1,113 @@
+# Clean Debian packages
+apt-clean() {
+    sudo apt-get clean
+    sudo apt-get autoclean
+    sudo apt-get autoremove
+}
+
+# Create a new directory and enter it
+mkd() {
+    mkdir -p "$@" && cd "$@"
+}
+
+# Print README file
+readme() {
+    for readme in {readme,README}.{md,MD,markdown,mkd,txt,TXT}; do
+        if [[ -x "$(command -v glow)" ]] && [[ -f "$readme" ]]; then
+            mdv "$readme"
+        elif [[ -f "$readme" ]]; then
+            cat "$readme"
+        fi
+    done
+}
+
+# Weather
+weather() {
+    curl -s "https://wttr.in/${1:-Ponorogo}?m2F&format=v2"
+}
+
+# Get an information of IP address
+ip-address() {
+    curl -s -H "Accept: application/json" "https://ipinfo.io/${1:-}" | jq "del(.loc, .postal, .readme)"
+}
+
+# Git commit browser
+fshow() {
+    local commit_hash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
+    local view_commit="$commit_hash | xargs -I % sh -c 'git show --color=always % | diff-so-fancy'"
+    git log --color=always \
+        --format="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset" "$@" | \
+    fzf --no-sort --tiebreak=index --no-multi --reverse --ansi \
+        --header="enter to view, alt-y to copy hash" --preview="$view_commit" \
+        --bind="enter:execute:$view_commit | less -R" \
+        --bind="alt-y:execute:$commit_hash | xclip -selection clipboard"
+}
+
+# Remove all commit in Git
+git-remove-all-commit() {
+    local branch
+    branch=$(git symbolic-ref --short HEAD)
+    echo -e "\nDo you want to remove all your commit in \033[1m$branch\033[0m branch? [Y/n] "
+    read -r response
+    case "$response" in
+        [yY][eE][sS]|[yY])
+            git checkout --orphan latest_branch
+            git add -A
+            git commit -am "Initial commit"
+            git branch -D "$branch"
+            git branch -m "$branch"
+            echo -e "\nTo force update your repository, run this command:\n\n    git push -fu origin $branch"
+            ;;
+        *)
+            echo "Cancelled."
+            ;;
+    esac
+}
+
+kp() {
+    local pid=$(ps -ef | sed 1d | eval "fzf ${FZF_DEFAULT_OPTS} -m --header='[kill:process]'" | awk '{print $2}')
+    if [ "x$pid" != "x" ]
+    then
+      echo $pid | xargs kill -${1:-9}
+      kp
+    fi
+}
+
+
+
+wget_dir() {
+    if [ $# -eq 2 ]
+    then
+        wget -r -nH --cut-dirs="$1" --no-parent --reject="index.html*" "$2"
+    else
+        echo -e "\nPass the required arguments as follows \
+            \n\t\033[1;40;31mwget_dir 2 http://mysite.com/dir1/dir2/data\033[0m\n" >&2
+    fi
+}
+
+ext () {
+  if [ -f "$1" ] ; then
+      case "$1" in
+          *.tar.bz2)    mkdir "${1%.*}" && cd "${1%.*}" && tar xvjf ../"$1"     ;;
+          *.tar.gz)     mkdir "${1%.*}" && cd "${1%.*}" && tar xvzf ../"$1"     ;;
+          *.tar.xz)     mkdir "${1%.*}" && cd "${1%.*}" && tar xf ../"$1"       ;;
+          *.bz2)        mkdir "${1%.*}" && cd "${1%.*}" && bunzip2 ../"$1"      ;;
+          *.rar)        mkdir "${1%.*}" && cd "${1%.*}" && rar x ../"$1"        ;;
+          *.gz)         mkdir "${1%.*}" && cd "${1%.*}" && gunzip ../"$1"       ;;
+          *.tar)        mkdir "${1%.*}" && cd "${1%.*}" && tar xvf ../"$1"      ;;
+          *.tbz2)       mkdir "${1%.*}" && cd "${1%.*}" && tar xvjf ../"$1"     ;;
+          *.tgz)        mkdir "${1%.*}" && cd "${1%.*}" && tar xvzf ../"$1"     ;;
+          *.zip)        mkdir "${1%.*}" && cd "${1%.*}" && unzip ../"$1"        ;;
+          *.Z)          mkdir "${1%.*}" && cd "${1%.*}" && uncompress ../"$1"   ;;
+          *.7z)         mkdir "${1%.*}" && cd "${1%.*}" && 7z x ../"$1"         ;;
+          *)            echo 'don"t know how to extract "$1"...' ;;
+      esac
+  else
+      echo 'Can not read file "$1"'
+  fi
+}
+unzip_d () {
+    zipfile="$1"
+    zipdir=${1%.zip}
+    unzip -d "$zipdir" "$zipfile"
+}
